@@ -2,56 +2,56 @@
   {
     "objectID": "index.html",
     "href": "index.html",
-    "title": "R Package Development Advent Calendar 2025",
+    "title": "Modern R Package Development (Advent Calendar 2025)",
     "section": "",
     "text": "Modern R package development\n\n\n\n\nR package development can feel overwhelming… Documentation, testing, CI/CD, and CRAN submission, there are dozens of tools to learn!\n\n\n\n\n\n\n\nThe R ecosystem has evolved dramatically. Tools like usethis, pkgdown, and GitHub Actions have automated what used to be manual, error-prone work.\n\n\n\n\n\n\n\n\nAutomated setup and infrastructure\nBeautiful, maintainable documentation\nComprehensive testing strategies\nAdvanced features and CRAN submission\n\n\n\n\n\n\n\n\n\nFirst-time package developers starting fresh\nExperienced devs wanting to modernize their workflow\nAnyone who’s struggled with CRAN submission\nTeams establishing package development standards"
   },
   {
     "objectID": "index.html#why-this-matters",
     "href": "index.html#why-this-matters",
-    "title": "R Package Development Advent Calendar 2025",
+    "title": "Modern R Package Development (Advent Calendar 2025)",
     "section": "Why This Matters?",
     "text": "Why This Matters?"
   },
   {
     "objectID": "index.html#why-load_all-is-magic",
     "href": "index.html#why-load_all-is-magic",
-    "title": "R Package Development Advent Calendar 2025",
+    "title": "Modern R Package Development (Advent Calendar 2025)",
     "section": "Why load_all() is Magic?",
     "text": "Why load_all() is Magic?"
   },
   {
     "objectID": "index.html#what-actually-happens",
     "href": "index.html#what-actually-happens",
-    "title": "R Package Development Advent Calendar 2025",
+    "title": "Modern R Package Development (Advent Calendar 2025)",
     "section": "What Actually Happens?",
     "text": "What Actually Happens?"
   },
   {
     "objectID": "index.html#what-pkgdown-does",
     "href": "index.html#what-pkgdown-does",
-    "title": "R Package Development Advent Calendar 2025",
+    "title": "Modern R Package Development (Advent Calendar 2025)",
     "section": "What pkgdown Does?",
     "text": "What pkgdown Does?"
   },
   {
     "objectID": "index.html#vignette-best-practices",
     "href": "index.html#vignette-best-practices",
-    "title": "R Package Development Advent Calendar 2025",
+    "title": "Modern R Package Development (Advent Calendar 2025)",
     "section": "Vignette Best Practices",
     "text": "Vignette Best Practices"
   },
   {
     "objectID": "index.html#essential-readme-sections",
     "href": "index.html#essential-readme-sections",
-    "title": "R Package Development Advent Calendar 2025",
+    "title": "Modern R Package Development (Advent Calendar 2025)",
     "section": "Essential README Sections",
     "text": "Essential README Sections"
   },
   {
     "objectID": "index.html#how-it-works",
     "href": "index.html#how-it-works",
-    "title": "R Package Development Advent Calendar 2025",
+    "title": "Modern R Package Development (Advent Calendar 2025)",
     "section": "How It Works?",
     "text": "How It Works?"
   }
