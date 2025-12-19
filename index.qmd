@@ -1,0 +1,1149 @@
+---
+title: "R Package Development Advent Calendar 2025"
+format:
+  closeread-html:
+    cr-style:
+      narrative-background-color-sidebar: "#ffffffff"
+      narrative-text-color-sidebar: "#036712ff"
+      section-background-color: "#020446ff"
+      narrative-font-size: 24pt
+      narrative-font-family: Ubuntu
+    remove-header-space: true
+---
+
+:::{.cr-section layout="sidebar-left"}
+Modern R package development @cr-r_package_advent
+
+R package development can feel overwhelming...
+Documentation, testing, CI/CD, and CRAN submission, there are dozens of tools to learn! @cr-r_package_advent
+
+## What's Changed?
+
+The R ecosystem has evolved dramatically.
+Tools like `usethis`, `pkgdown`, and GitHub Actions have automated what used to be manual, error-prone work. @cr-r_package_advent
+
+## What You'll Learn?
+
+- Automated setup and infrastructure
+- Beautiful, maintainable documentation
+- Comprehensive testing strategies
+- Advanced features and CRAN submission
+
+## Who is this for?
+
+- First-time package developers starting fresh
+- Experienced devs wanting to modernize their workflow
+- Anyone who's struggled with CRAN submission
+- Teams establishing package development standards
+
+:::{#cr-r_package_advent}
+![](img/r_package_advent.jpg)
+:::
+:::
+
+:::{.cr-section layout="sidebar-left"}
+`usethis` - Project Setup Automation [@cr-usethis_hex]{zoom-to="3"}
+
+Automating repetitive package development tasks!
+
+This package automates ALL the boilerplate 
+
+It enforces best practices that the R community has learned over decades
+
+Key Functions  @cr-usethis
+
+:::{#cr-usethis}
+```r
+# Start a new package
+usethis::create_package("~/mypackage")
+
+# Add essential infrastructure
+usethis::use_mit_license()
+usethis::use_readme_rmd()
+usethis::use_github_action("check-standard")
+usethis::use_testthat(3)
+usethis::use_pkgdown()
+```
+:::
+
+## Why This Matters?
+
+Each function:
+
+- Sets up files with correct syntax
+- Configures dependencies properly
+- Follows CRAN requirements
+- Uses community best practices
+- Saves you from painful debugging later
+
+**Pro Tip**: Set up your `usethis` options once!  @cr-usethis_options
+
+:::{#cr-usethis_options}
+```r
+usethis::edit_r_profile()
+# Add: options(usethis.full_name = "Your Name")
+# options(usethis.protocol = "ssh")
+```
+:::
+
+Now every package inherits your preferences automatically!  @cr-usethis_options
+
+📚 Resources: [usethis.r-lib.org](https://usethis.r-lib.org/)  @cr-usethis_hex
+
+:::{#cr-usethis_hex}
+![](img/usethis_hex.jpg)
+:::
+:::
+
+:::{.cr-section layout="sidebar-right"}
+`devtools` - Essential Development Workflow 🔧  [@cr-devtools_hex]{zoom-to="3"}
+
+Streamlines your package development workflow with key functions! ⚡
+
+💡 **Pro Tip**: Use `Ctrl/Cmd + Shift + L` in RStudio to quickly run `load_all()`!
+
+Use these functions to create an instant feedback loop  @cr-devtools_workflow
+
+:::{#cr-devtools_workflow}
+```r
+devtools::load_all() # Instant - try your changes NOW
+devtools::test() # Run tests without reinstalling
+devtools::check() # Full CRAN checks locally
+```
+:::
+
+## Why `load_all()` is Magic?
+
+- It simulates installing your package WITHOUT actually installing it
+- Changes appear instantly
+- You can:
+  - Test functions immediately
+  - Try different approaches rapidly
+  - Keep your development flow uninterrupted
+  - Maintain state between iterations
+
+The Check-Document-Test Loop @cr-core_workflow
+
+:::{#cr-core_workflow}
+```r
+# Core workflow after you make changes to your code
+devtools::load_all() # Load package to test immediately
+devtools::document() # Generate/update documentation
+devtools::test() # Run tests
+devtools::check() # Run R CMD check for full validation
+devtools::install() # Install package locally
+```
+:::
+
+Hidden Gem  @cr-checks
+
+CRAN will reject packages for typos in documentation. Catch them locally first.  @cr-checks
+
+:::{#cr-checks}
+```r
+# Quick checks
+devtools::missing_s3() # Find missing S3 methods
+devtools::spell_check() # Check spelling
+```
+:::
+
+The Professional Flow  @cr-professional_flow
+
+:::{#cr-professional_flow}
+```markdown
+# Keyboard shortcuts
+
+`Ctrl/Cmd + Shift + L` -> (load_all) constantly
+`Ctrl/Cmd + Shift + T` -> (test) after changes
+`Ctrl/Cmd + Shift + D` -> (document) before commits
+`Ctrl/Cmd + Shift + E` -> (check) before pushing
+```
+:::
+
+`devtools` eliminates friction from package development  @cr-pkg_dev_cheat_sheet
+
+[R Package Development Cheat Sheet](https://devtools.r-lib.org/#cheatsheet)  @cr-pkg_dev_cheat_sheet
+
+📚 Resources: [devtools.r-lib.org](https://devtools.r-lib.org/)  @cr-devtools_hex
+
+:::{#cr-devtools_hex}
+![](img/devtools_hex.png)
+:::
+
+:::{#cr-pkg_dev_cheat_sheet}
+![](img/pkg_dev_cheat_sheet.jpg)
+:::
+:::
+
+:::{.cr-section layout="sidebar-left"}
+GitHub Actions with r-lib/actions - CI/CD Setup 🚀  @cr-actions
+
+Automates package testing across multiple platforms and R versions! 🔄
+
+One Command Setup  @cr-std_check
+
+:::{#cr-std_check}
+```r
+usethis::use_github_action("check-standard")
+```
+:::
+
+💡 **Pro Tip**: The standard check runs on Windows, macOS, and Ubuntu with multiple R versions.
+
+## What Actually Happens?
+
+When you push code:
+
+- GH Actions spins up 3+ machines
+- Installs R on each
+- Installs your dependencies
+- Runs R CMD check
+- Reports results back
+- All in ~5-10 minutes
+- You get a ✅ or ❌ immediately.
+
+The Three Essential Actions for testing, metrics, and documentation  @cr-setup
+
+:::{#cr-setup}
+```r
+usethis::use_github_action("check-standard")  # Core testing
+usethis::use_github_action("test-coverage")  # Track coverage
+usethis::use_github_action("pkgdown")  # Auto-deploy docs
+```
+:::
+
+**Coverage Tracking**: The test-coverage action pushes to codecov.io, giving you a badge showing % of code tested. This isn't vanity - it identifies untested functions that need attention. Public accountability drives quality.  @cr-setup
+
+**Documentation Automation**: The pkgdown action rebuilds your website on every push. Docs are ALWAYS current. Users always see up-to-date documentation.  @cr-setup
+
+Before pushing to CRAN, you KNOW your package works everywhere. That ✅ on your commits means:  @cr-custom_workflow
+
+- No platform-specific bugs
+- Tests pass on all versions
+- Documentation builds
+- Coverage is tracked
+- CRAN submission becomes routine
+
+📚 Resources: [github.com/r-lib/actions](https://github.com/r-lib/actions)  @cr-actions
+
+:::{#cr-actions}
+![](img/actions.jpg)
+:::
+
+:::{#cr-custom_workflow}
+```yml
+# Custom workflow example
+- uses: r-lib/actions/setup-r@v2
+  with:
+    r-version: 'release'
+    use-public-rspm: true
+```
+:::
+:::
+
+:::{.cr-section layout="sidebar-right"}
+`.Rbuildignore` and `.gitignore` Best Practices 📁
+
+Control what gets included in your package build and git repository! 🎯 
+
+**Two Different Jobs**: `.gitignore` and `.Rbuildignore`. Confuse these and you'll either leak secrets or bloat your package.
+
+`.gitignore`: What stays OFF GitHub (API keys, local files, cache)  @cr-gitignore
+
+:::{#cr-gitignore}
+```markdown
+.Rproj.user
+.Rhistory
+.RData
+.Ruserdata
+docs/
+```
+:::
+
+`.Rbuildignore`: What stays OUT of your CRAN package (README.Rmd, GitHub Actions, development files)  @cr-rbuildignore
+
+:::{#cr-rbuildignore}
+```r
+# Essential .Rbuildignore Entries
+^.*\.Rproj$  # RStudio files
+^\.Rproj\.user$  # RStudio cache
+^README\.Rmd$  # Source file (keep README.md)
+^LICENSE\.md$  
+^\.github$  # GitHub Actions
+^_pkgdown\.yml$  # Website config
+^docs$  # Built website
+^pkgdown$
+```
+:::
+
+💡 **Pro Tip**: Use `usethis::use_build_ignore()` to add entries programmatically.
+:::
+
+:::{.cr-section layout="sidebar-left"}
+Package Structure with `pkgdown` Site Generation 🌐  @cr-pkgdown_hex
+
+Creates beautiful documentation websites for your packages! ✨
+
+Setup  @cr-pkgdown_set
+
+:::{#cr-pkgdown_set}
+```r
+usethis::use_pkgdown()
+pkgdown::build_site()
+```
+:::
+
+💡 **Pro Tip**: Use `usethis::use_pkgdown_github_pages()` for automatic deployment.
+
+## What `pkgdown` Does?
+
+It transforms your package into a professional website:
+
+- Function reference (all your roxygen docs)
+- Vignettes (your tutorials)
+- README (your intro)
+- Changelog (your NEWS.md)
+- Search functionality
+
+Better docs = more users = more feedback = better package  @cr-pkgdown_hex 
+
+**The Reference Page**
+
+`pkgdown` automatically:
+
+- Groups related functions
+- Shows usage examples
+- Links between functions
+- Highlights code with syntax colors
+- Makes everything searchable
+- Your roxygen comments become interactive documentation
+
+**Customization without code**: 
+Change colors, navigation, layout - all configuration, no HTML/CSS.  @cr-yml
+
+:::{#cr-yml}
+```yaml
+# _pkgdown.yml
+template:
+ bootstrap: 5
+ 
+navbar:
+  structure:
+    left: [intro, reference, articles, tutorials]
+    right: [search, github]
+ ```
+:::
+
+GitHub pages integration  @cr-github_action
+
+Now every push automatically:
+
+- Builds your site
+- Deploys to GitHub Pages
+- Updates documentation so docs are always current
+
+:::{#cr-github_action}
+```r
+usethis::use_github_action("pkgdown")
+```
+:::
+
+Function grouping example  @cr-grouping
+
+:::{#cr-grouping}
+```yaml
+reference:
+  - title: "Data manipulation"
+    contents:
+      - starts_with("filter")
+      - ends_with("_join")
+  - title: "Visualization"
+    contents:
+      - has_concept("plotting")
+```
+:::
+
+Organise hundreds of functions into logical groups. Users find what they need.  @cr-grouping
+
+📚 Resources: [pkgdown.r-lib.org](https://pkgdown.r-lib.org)  @cr-pkgdown_hex
+
+:::{#cr-pkgdown_hex}
+![](img/pkgdown_hex.jpg)
+:::
+:::
+
+::::{.cr-section layout="sidebar-right"}
+Adding dependencies to your R package 🧵  @cr-usethis_dep
+
+Adds to Imports section, alphabetically sorted, with correct formatting.
+
+Using `usethis`  @cr-usepkg
+
+:::{#cr-usepkg}
+```r
+usethis::use_package("dplyr")
+```
+:::
+
+**Version requirements matter**: Your code uses features added in 1.14.0. Without min_version, users with old versions get cryptic errors. Specify requirements upfront.  @cr-usepkg_version
+
+:::{#cr-usepkg_version}
+```r
+usethis::use_package("data.table", min_version = "1.14.0")
+```
+:::
+
+**Imports vs Suggests**: Imports = must install. Suggests = nice to have. Keep Imports minimal.  @cr-imports_suggests
+
+:::{#cr-imports_suggests}
+```r
+# Required for core functionality
+usethis::use_package("dplyr")
+
+# Optional - only for examples/vignettes
+usethis::use_package("ggplot2", type = "Suggests")
+```
+:::
+
+Resources: [usethis.r-lib.org](https://usethis.r-lib.org/)  @cr-usethis_dep
+
+:::{#cr-usethis_dep}
+![](img/usethis_hex.jpg)
+:::
+:::
+
+:::{.cr-section layout="sidebar-left"}
+`roxygen2`: Advanced Tags and Cross-References 📝  @cr-ro2_hex
+
+Documents using advanced `roxygen2` features, with markdown-style writing! 🎯
+
+Cross-references 🔗  @cr-crossref
+
+:::{#cr-crossref}
+```r
+#' @seealso [other_function()], [pkg::function()]
+#' @family utility functions
+#' @inheritParams parent_function
+```
+:::
+
+Advanced tags: ⚡  @cr-adv_tags
+
+:::{#cr-adv_tags}
+```r
+#' @section Warning:
+#' This function modifies data in place.
+#' 
+#' `r paste("Generated on", Sys.Date())` # Run R code
+```
+:::
+
+💡 **Pro Tip**: Use `@inheritDotParams` to inherit parameter documentation.
+
+**Basic roxygen2** @cr-basic_roxygen
+
+:::{#cr-basic_roxygen}
+```r
+#' @param x A number
+#' @return A result
+#' @export
+```
+:::
+
+**Cross-reference**: Set clickable links so that users can navigate your documentation like a website.  @cr-see_also
+
+:::{#cr-see_also}
+```r
+#' @seealso [other_function()] for related functionality
+#' @seealso [dplyr::filter()] for filtering
+```
+:::
+
+**Family tags** to group related functions. `pkgdown` automatically creates "See also" sections grouping these together.  @cr-family_tags
+
+:::{#cr-family_tags}
+```r
+#' @family data manipulation
+read_data <- function() {}
+
+#' @family data manipulation 
+write_data <- function() {}
+```
+:::
+
+`@inheritParams` superpower: Update the parameter doc once, it propagates everywhere. DRY principle for documentation.  @cr-inherit_params
+
+:::{#cr-inherit_params}
+```r
+#' @param data A data frame
+#' @param col Column to use
+parent_function <- function(data, col) {}
+
+#' @inheritParams parent_function
+child_function <- function(data, col, extra) {}
+```
+:::
+
+`@inheritDotParams` magic: All 94 parameters from `theme()` are now documented in your function. Without typing them.  @cr-inherit_dotparams
+
+:::{#cr-inherit_dotparams}
+```r
+#' @inheritDotParams ggplot2::theme
+my_plot <- function(...) {
+ ggplot() + theme(...)
+}
+```
+:::
+
+`@section` tags for structure: These create collapsible sections in `pkgdown`. Organises complex documentation.  @cr-section_tag
+
+:::{#cr-section_tag}
+```r
+#' @section Warning:
+#' This function modifies data in place.
+#'
+#' @section Performance:
+#' For large datasets, consider using data.table.
+```
+:::
+
+`@eval` tag for dynamic documentation: Generate documentation programmatically.  @cr-eval_tag
+
+:::{#cr-eval_tag}
+```r
+#' `r paste("Last updated:", Sys.Date())`
+#' `r document_examples_from_file("examples.R")`
+```
+:::
+
+Markdown in `roxygen2`: Bold, italics, lists, code blocks - markdown makes docs readable.  @cr-markdown_roxygen
+
+:::{#cr-markdown_roxygen}
+```r
+#' @description
+#' This function processes data:
+#' - **Fast**: O(n) complexity
+#' - **Safe**: Validates inputs
+#' - **Flexible**: Many options
+```
+:::
+
+📚 Resources: [roxygen2.r-lib.org](https://roxygen2.r-lib.org)  @cr-ro2_hex
+
+:::{#cr-ro2_hex}
+![](img/ro2_hex.jpg)
+:::
+:::
+
+:::{.cr-section layout="sidebar-right"}
+`pkgdown` Customisation and Deployment
+
+Transforms your package documentation into a polished website.
+
+**Pro Tip**: Group functions logically in the reference section for better navigation.
+
+**Bootstrap 5** upgrade: Modern, responsive, accessible. `Bootstrap 5` makes your site look like it's from 2025, not 2015.  @cr-bootstrap5
+
+:::{#cr-bootstrap5}
+```yaml
+# _pkgdown.yml
+template:
+ bootstrap: 5
+```
+:::
+
+**Themes** for styling: 20+ professional themes to pick from. @cr-pkgdown_theme
+
+:::{#cr-pkgdown_theme}
+```yaml
+template:
+  params:
+    bootswatch: flatly # or: darkly, cosmo, journal, etc.
+```
+:::
+
+**Reference organisation**: Turn alphabetical chaos into logical structure. Users find functions faster.  @cr-pkgdown_ref
+
+:::{#cr-pkgdown_ref}
+```yaml
+reference:
+  - title: "Data Input"
+    desc: "Functions for reading data"
+    contents:
+      - read_*
+      - import_*
+  - title: "Data Processing"
+    contents:
+      - has_concept("manipulation")
+  - title: "Data manipulation"
+    contents:
+      - starts_with("mutate")
+      - ends_with("_join")
+```
+:::
+
+**Navigation customisation**  @cr-pkgdown_navbar
+
+:::{#cr-pkgdown_navbar}
+```yaml
+navbar:
+  structure:
+    left: [intro, reference, articles, tutorials, news]
+    right: [search, github, gitlab]
+  components:
+    articles:
+      text: Learn More
+      menu:
+      - text: "Getting Started"
+        href: articles/intro.html
+```
+:::
+
+**Auto-Deployment** setup: Creates a GitHub Action that builds the site on every push, deploys to GitHub Pages, and keeps docs perpetually current.  @cr-pkgdown_auto_deploy
+
+:::{#cr-pkgdown_auto_deploy}
+```r
+usethis::use_github_action("pkgdown")
+```
+:::
+
+**Logo**: A hex sticker logo makes your package instantly recognizable. Create one at `hexb.in` or with the `hexSticker` package.  @cr-pkgdown_logo
+
+:::{#cr-pkgdown_logo}
+```yaml
+home:
+  logo: man/figures/logo.png
+```
+:::
+
+**Articles vs Vignettes** display: Control what appears in navigation, group long-form content logically.  @cr-pkgdown_articles
+
+:::{#cr-pkgdown_articles}
+```yaml
+articles:
+  - title: "Tutorials"
+    navbar: ~
+    contents:
+      - intro
+      - advanced
+
+  - title: "Case Studies"
+    contents:
+      - case_study_*
+```
+:::
+
+**README home page** control: Customise your landing page beyond what's in README.md. Add badges, customize layout.  @cr-pkgdown_home
+
+:::{#cr-pkgdown_home}
+```yaml
+home:
+  title: "My Package"
+  description: "Does amazing things with data"
+```
+:::
+
+**Automatic deployment workflow**: Deploy on pushes, preview PR changes. Reviewers see doc changes before merging.  @cr-pkgdown_workflow
+
+:::{#cr-pkgdown_workflow}
+```yaml
+# In .github/workflows/pkgdown.yaml
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+    branches: [main, master]
+```
+:::
+:::
+
+:::{.cr-section layout="sidebar-left"}
+Vignettes with `knitr` and `rmarkdown`
+
+Create comprehensive tutorials and examples for your package.
+
+**Pro Tip**: Use `knitr::opts_chunk$set(collapse = TRUE, comment = "#>")` for clean output.
+
+**Create a vignette**: Opens a template. Fill it with realistic examples showing your package solving actual problems users face. @cr-vignette_setup
+
+:::{#cr-vignette_setup}
+```r
+usethis::use_vignette("getting-started")
+```
+:::
+
+## Vignette Best Practices
+
+- Start with a clear problem statement
+- Show realistic examples
+- Keep computational time under 5 minutes
+- Use pre-computed results for heavy computations
+
+**The discovery problem**: Great vignettes hidden in package folders help no one. `pkgdown` puts them front-center on your website. Searchable, linked, beautiful. Write once, users find forever.
+:::
+
+:::{.cr-section layout="sidebar-right"}
+**lifecycle** - Managing function deprecation
+
+Communicate changes to users gracefully with lifecycle badges.
+
+**Setup**  @cr-lifecycle_setup
+
+:::{#cr-lifecycle_setup}
+```r
+usethis::use_lifecycle()
+```
+:::
+
+**Usage**  @cr-old
+
+:::{#cr-old}
+```r
+#' @lifecycle deprecated
+old_function <- function() {
+  lifecycle::deprecate_warn("1.0.0", 
+  "old_function()", 
+  "new_function()")
+  # function body
+}
+```
+:::
+
+**Usage**  @cr-new
+
+:::{#cr-new}
+```r
+#' @lifecycle experimental
+new_function <- function() {
+  # function body
+}
+```
+:::
+
+**Pro Tip**: Use lifecycle stages: experimental → stable → superseded → deprecated.
+
+Resources: [lifecycle.r-lib.org](https://lifecycle.r-lib.org)
+
+The **lifecycle package solution**: Warn users, give them migration time, maintain trust.  @cr-lifecycle_stages
+
+:::{#cr-lifecycle_stages}
+```r
+usethis::use_lifecycle()
+
+#' @lifecycle deprecated
+old_function <- function() {
+  lifecycle::deprecate_warn("1.0.0", 
+                            "old_function()", 
+                            "new_function()")
+  new_function()
+}
+```
+:::
+
+**Lifecycle stages**: experimental → stable → superseded → deprecated → defunct. Badge in documentation shows function status. Users know what's safe to depend on, what's changing soon.
+:::
+
+:::{.cr-section layout="sidebar-left"}
+`NEWS.md` and Semantic Versioning
+
+Keep users informed about package changes.
+
+**Create NEWS.md**: `usethis::use_news_md()`
+
+**Structure**  @cr-news
+
+:::{#cr-news}
+```markdown
+# mypackage 1.2.0
+
+## New features
+* Added `new_function()` for advanced analysis (#15)
+
+## Bug fixes
+* Fixed issue with missing values in `existing_function()` (#12)
+
+## Breaking changes
+* `old_param` renamed to `new_param` in `main_function()`
+```
+:::
+
+**Pro Tip**: Follow semantic versioning: `MAJOR.MINOR.PATCH` for `breaking.feature.bugfix changes`.
+
+**Semantic versioning**: Version number communicates risk. 1.2.3 → 1.2.4 = safe. → 2.0.0 = read changelog.  @cr-semver
+
+:::{#cr-semver}
+```markdown
+MAJOR: breaking changes (1.0.0 → 2.0.0)
+MINOR: new features (1.0.0 → 1.1.0)
+PATCH: bug fixes (1.0.0 → 1.0.1)
+```
+:::
+
+**Link to Issues**: (#15) creates automatic links to GitHub issues. Users see full context, discussion, rationale for changes.
+:::
+
+:::{.cr-section layout="sidebar-right"}
+`README.Rmd` automation
+
+Create dynamic READMEs that stay up-to-date with your code.
+
+**Static vs Dynamic**: Static README.md shows fake examples. Code drifts, examples break, users copy-paste errors. README.Rmd runs REAL code, captures ACTUAL output.
+
+**Setup**: Creates README.Rmd that knits to README.md. Examples execute, output captured. If code breaks, you know before users do.  @cr-readme_setup
+
+:::{#cr-readme_setup}
+```r
+usethis::use_readme_rmd()
+```
+:::
+
+## Essential README Sections
+
+- Installation instructions
+- Quick example with real output
+- Badge collection (build status, coverage)
+- Link to full documentation
+
+**Keep it fresh**: Auto-renders on push. README always matches current package.  @cr-readme_rmd
+
+:::{#cr-readme_rmd}
+```yaml
+# .github/workflows/ 
+- name: Render README
+  run: Rscript -e 'rmarkdown::render("README.Rmd")'
+```
+:::
+:::
+
+:::{.cr-section layout="sidebar-left"}
+`covr` - Test Coverage Reporting  @cr-covr_hex
+
+Track how much of your code is tested.
+Use `#nocov` for code you don't want to cover (like basic R functions etc)
+
+**Basic usage**  @cr-covr_basic
+
+:::{#cr-covr_basic}
+```r
+covr::package_coverage()
+covr::report()
+covr::package_coverage() |>
+  covr::zero_coverage()
+```
+:::
+
+**Integration with CI**: Badge on README, track over time.  @cr-covr_action
+
+:::{#cr-covr_action}
+```yaml
+usethis::use_github_action("test-coverage")
+usethis::use_coverage() # Adds codecov badge
+```
+:::
+
+**Pro Tip**: Aim for >80% coverage, but focus on testing critical functions thoroughly rather than chasing 100%.
+
+See exactly which lines run during tests: Red = untested = risk.
+
+**The 80% Rule**: Chase 100% coverage = test getters/setters pointlessly. Focus on: logic, edge cases, error handling. 80% meaningful coverage > 100% checkbox coverage.
+
+Resources: [covr.r-lib.org](https://covr.r-lib.org)  @cr-covr_hex
+
+:::{#cr-covr_hex}
+![](img/covr_hex.png)
+:::
+:::
+
+:::{.cr-section layout="sidebar-right"}
+`testthat` 3rd Edition Features  @cr-testthat_hex
+
+Modern testing with the latest testthat features.
+
+**Setup**: `usethis::use_testthat(3)`
+
+**Enables**: snapshot testing, better error messages, cleaner setup/teardown. If you're on edition 2, upgrade today.
+
+**New features**  @cr-snapshot_test
+
+:::{#cr-snapshot_test}
+```r
+# Snapshot tests
+test_that("plot output is stable", {
+  p <- my_plot(data)
+  vdiffr::expect_doppelganger("basic-plot", p)
+})
+```
+:::
+
+Helper functions in `tests/testthat/helper.R`
+
+**Pro Tip**: Use `test_that()` with descriptive names that explain what should happen.
+
+**Snapshot tests**: Captures exact output. Future changes show diffs. Catch unintended message changes.  @cr-expect_snapshot
+
+:::{#cr-expect_snapshot}
+```r
+test_that("error messages stay helpful", {
+ expect_snapshot(my_function(bad_input), error = TRUE)
+})
+```
+:::
+
+**Helper files**: Put shared test code in `tests/testthat/helper.R`. Auto-loaded for all tests. `setup.R` runs before tests, `teardown.R` after. Clean, organised.
+
+**Descriptive test names**  @cr-descriptive_names
+
+:::{#cr-descriptive_names}
+```r
+test_that("function handles missing values by imputing mean", {
+ # specific, readable
+})
+# Not: test_that("test1", {}). When tests fail, you know exactly what broke.
+```
+:::
+
+Resources: [testthat.r-lib.org](https://testthat.r-lib.org)  @cr-testthat_hex
+
+:::{#cr-testthat_hex}
+![](img/testthat_hex.jpg)
+:::
+:::
+
+:::{.cr-section layout="sidebar-left"}
+Snapshot Testing with `testthat`  @cr-testthat_hex
+
+:::{#cr-testthat_hex}
+![](img/testthat_hex.jpg)
+:::
+
+Test complex outputs that are hard to specify exactly.
+
+**Pro Tip**: Review snapshot changes carefully - they capture everything, including whitespace and formatting. 
+
+Snapshot solution: First run captures output to file. Future runs compare. Any difference = test fails.  @cr-informative_error
+
+:::{#cr-informative_error}
+```r
+test_that("error messages are informative", {
+  expect_snapshot(my_function(bad_input), error = TRUE)
+})
+```
+:::
+
+**Review changes carefully**: Snapshots capture EVERYTHING - whitespace, formatting, exact wording. Intentional changes? Update snapshot. Unintentional? Fix your code.
+
+**Plot snapshots**: Visual regression testing. Catch accidental plot changes. @cr-plot_error
+
+:::{#cr-plot_error}
+```r
+test_that("plots look right", {
+  p <- ggplot(mtcars, aes(mpg, wt)) + geom_point()
+  vdiffr::expect_doppelganger("mtcars-scatter", p)
+})
+```
+:::
+:::
+
+:::{.cr-section layout="sidebar-right"}
+Testing with mocks using `testthat`  @cr-testthat_hex
+
+Test functions that depend on external resources using `testthat`'s built-in mocking.
+
+**Local mocking**  @cr-mock_local
+
+:::{#cr-mock_local}
+```r
+test_that("function handles API failure", {
+  local_mocked_bindings(
+    api_call = function(...) stop("API unavailable")
+  )
+  expect_error(my_function(), "API unavailable")
+})
+```
+:::
+
+**Mock with return values**  @cr-mock_return
+
+:::{#cr-mock_return}
+```r
+test_that("function processes API response", {
+  local_mocked_bindings(
+    fetch_data = function(...) list(status = "success", data = mtcars)
+    )
+    result <- my_function()
+    expect_equal(nrow(result), 32)
+})
+```
+:::
+
+**Pro Tip**: Use `local_mocked_bindings()` to mock functions within the test scope only.
+
+Resources: [testthat.r-lib.org](https://testthat.r-lib.org)  @cr-testthat_hex
+
+:::{#cr-testthat_hex}
+![](img/testthat_hex.jpg)
+:::
+:::
+
+:::{.cr-section layout="sidebar-left"}
+`vcr` - Recording API calls for tests  @cr-vcr_hex
+
+Record real API responses for reliable, fast tests without hitting live APIs.  @cr-ropensci
+
+**Setup**  @cr-vcr_setup
+
+:::{#cr-vcr_setup}
+```r
+library(vcr)
+vcr_configure(dir = "tests/fixtures/vcr_cassettes")
+```
+:::
+
+**Record cassettes**  @cr-test_vcr
+
+:::{#cr-test_vcr}
+```r
+test_that("API returns expected data", {
+  use_cassette("github_api", {
+    response <- httr::GET("https://lnkd.in/ePSbTkEC")
+    expect_equal(httr::status_code(response), 200)
+    })
+})
+```
+:::
+
+**For vignettes and examples**  @cr-vcr_cassette
+
+:::{#cr-vcr_cassette}
+```r
+# In vignette setup
+vcr::use_cassette("demo_data", {
+  demo_data <- fetch_api_data("example")
+})
+```
+:::
+
+**Pro Tip**: Commit cassette files to git for reproducible tests across environments.
+
+**Record cassettes**  @cr-test_vcr
+
+:::{#cr-test_vcr}
+```r
+library(vcr)
+vcr_configure(dir = "tests/_vcr")
+test_that("API returns expected data", {
+  local_cassette("github_api", {
+    response <- httr::GET("https://api.github.com/users/octocat")
+    expect_equal(httr::status_code(response), 200)
+  })
+})
+```
+:::
+
+## How It Works?
+First run hits real API, saves response to cassette file. Subsequent runs read from file. Tests are fast, reliable, work offline.
+
+**For Vignettes too**: Vignettes with real API examples that rebuild anywhere, anytime. Use code chunk options to control.  @cr-vcr_example
+
+:::{#cr-vcr_example}
+```r
+#| label: example-code
+#| cassette: true
+
+demo_data <- fetch_api_data("example")
+```
+:::
+
+Resources: [docs.ropensci.org/vcr](https://docs.ropensci.org/vcr/)  @cr-vcr_hex
+
+:::{#cr-vcr_hex}
+![](img/vcr_hex.jpg)
+:::
+
+:::{#cr-ropensci}
+![](img/ropensci.jpg)
+:::
+:::
+
+:::{.cr-section layout="sidebar-right"}
+Use linters!  @cr-lintr_hex
+
+Maintain consistent, readable code style automatically.
+
+**Setup**  @cr-lintr_setup
+
+:::{#cr-lintr_setup}
+```r
+# .lintr file in project root
+linters: linters_with_defaults(
+  line_length_linter(120),
+  commented_code_linter = NULL
+)
+```
+:::
+
+**Usage**  @cr-lintr_use
+
+:::{#cr-lintr_use}
+```r
+rlintr::lint_package()
+styler::style_pkg()
+```
+:::
+
+**Pro Tip**: Add both to pre-commit hooks for automatic code formatting. 
+
+**Automate style**: styler fixes, lintr finds. Run both, commit the result.  @cr-lintr_auto
+
+:::{#cr-lintr_auto}
+```r
+rstyler::style_pkg() # Formats entire package
+lintr::lint_package() # Finds style issues
+```
+:::
+
+**Configure once**: Team agrees on rules once. Tools enforce forever. @cr-lintr_configure
+
+:::{#cr-lintr_configure}
+```r
+# .lintr file in project root
+linters: linters_with_defaults(
+  line_length_linter(120),
+  commented_code_linter = NULL
+)
+```
+:::
+
+**IDE integration**: RStudio: Addins menu. VSCode: R extension. Format on save. Never think about style again.
+
+Resources: [lintr.r-lib.org](https://lintr.r-lib.org)  @cr-lintr_hex
+
+:::{#cr-lintr_hex}
+![](img/lintr_hex.jpg)
+:::
+:::
+
+:::{.cr-section layout="sidebar-left"}
+`goodpractice` - Package Health Checks  @cr-goodpractice_hex
+
+Get comprehensive feedback on package quality.
+
+**Usage**: `goodpractice::gp()`
+
+**Checks include**:
+⬩ Function length and complexity
+⬩ Namespace usage
+⬩ DESCRIPTION completeness
+⬩ Code coverage
+⬩ R CMD check results
+
+**Pro Tip**: Run `gp()` before CRAN submission to catch common issues early.
+
+**Before CRAN Submission**: Run `gp()` first. Fix warnings. CRAN submission goes smoother. Fewer rejections, faster acceptance.
+
+Resources: [`goodpractice` docs](https://github.com/ropensci-review-tools/goodpractice)  @cr-goodpractice_hex
+
+:::{#cr-goodpractice_hex}
+![](img/goodpractice_hex.png)
+:::
+:::
