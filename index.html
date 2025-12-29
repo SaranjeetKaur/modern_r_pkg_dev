@@ -125,11 +125,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <!-- user-provided yaml closeread style options -->
       <style>
         :root {
-          --cr-narrative-background-color-sidebar: #ffffffff;
+          --cr-narrative-font-size: 24pt;
+--cr-narrative-background-color-sidebar: #ffffffff;
+--cr-section-background-color: #020446ff;
 --cr-narrative-font-family: Ubuntu;
 --cr-narrative-text-color-sidebar: #036712ff;
---cr-narrative-font-size: 24pt;
---cr-section-background-color: #020446ff;
         }
       </style>
     
@@ -210,7 +210,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <div class="cr-section cr-column-screen sidebar-left">
 <div class="narrative-col">
-<div class="trigger new-trigger" data-zoom-to="3" data-focus-on="cr-usethis_hex">
+<div class="trigger new-trigger" data-focus-on="cr-usethis_hex" data-zoom-to="3">
 <div class="narrative">
 <p><code>usethis</code> - Project Setup Automation</p>
 </div>
@@ -296,7 +296,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <div class="cr-section cr-column-screen sidebar-right">
 <div class="narrative-col">
-<div class="trigger new-trigger" data-zoom-to="3" data-focus-on="cr-devtools_hex">
+<div class="trigger new-trigger" data-focus-on="cr-devtools_hex" data-zoom-to="3">
 <div class="narrative">
 <p><code>devtools</code> - Essential Development Workflow 🔧</p>
 </div>
@@ -1762,6 +1762,438 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div id="cr-goodpractice_hex" class="sticky">
 <p><img src="img/goodpractice_hex.png" class="img-fluid"></p>
 </div>
+</div>
+</div>
+</div>
+<div class="cr-section cr-column-screen sidebar-right">
+<div class="narrative-col">
+<div class="trigger">
+<div class="narrative">
+<p>Performance Testing with <code>bench</code></p>
+</div>
+</div>
+<div class="trigger">
+<div class="narrative">
+<p>Profile and benchmark your package functions.</p>
+</div>
+</div>
+<div class="trigger new-trigger" data-focus-on="cr-basic_benchmark">
+<div class="narrative">
+<p>Basic benchmarking</p>
+</div>
+</div>
+<div class="trigger new-trigger" data-focus-on="cr-memory_profiling">
+<div class="narrative">
+<p>Memory profiling</p>
+</div>
+</div>
+<div class="trigger">
+<div class="narrative">
+<p><strong>Pro Tip</strong>: Include benchmarks in your test suite to catch performance regressions.</p>
+</div>
+</div>
+<div class="trigger">
+<div class="narrative">
+<p><strong>Performance question</strong>: “Is approach A faster than B?” Guessing = wrong. Microbenchmarking = proof.</p>
+</div>
+</div>
+<div class="trigger new-trigger" data-focus-on="cr-memory">
+<div class="narrative">
+<p><strong>Memory matters</strong>: Track memory allocation. Sometimes “faster” uses 10x memory. <code>bench</code> shows the tradeoff.</p>
+</div>
+</div>
+<div class="trigger">
+<div class="narrative">
+<p><strong>Catch regressions</strong>: Include benchmarks in tests. New code slower? Test fails. Maintain performance intentionally.</p>
+</div>
+</div>
+<div class="trigger">
+<div class="narrative">
+<p>Resources: <a href="https://bench.r-lib.org/">bench.r-lib.org</a></p>
+</div>
+</div>
+</div>
+<div class="sticky-col">
+<div class="sticky-col-stack">
+<div id="cr-basic_benchmark" class="sticky">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb65"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb65-1"><a href="#cb65-1" aria-hidden="true" tabindex="-1"></a>results <span class="ot">&lt;-</span> bench<span class="sc">::</span><span class="fu">mark</span>(</span>
+<span id="cb65-2"><a href="#cb65-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">old_approach =</span> <span class="fu">old_function</span>(data),</span>
+<span id="cb65-3"><a href="#cb65-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">new_approach =</span> <span class="fu">new_function</span>(data),</span>
+<span id="cb65-4"><a href="#cb65-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">check =</span> <span class="cn">FALSE</span>, <span class="co"># Skip result equality check</span></span>
+<span id="cb65-5"><a href="#cb65-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">iterations =</span> <span class="dv">100</span></span>
+<span id="cb65-6"><a href="#cb65-6" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb65-7"><a href="#cb65-7" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(results)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div id="cr-memory_profiling" class="sticky">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb66"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb66-1"><a href="#cb66-1" aria-hidden="true" tabindex="-1"></a>bench<span class="sc">::</span><span class="fu">mark</span>(</span>
+<span id="cb66-2"><a href="#cb66-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">my_function</span>(big_data),</span>
+<span id="cb66-3"><a href="#cb66-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">filter_gc =</span> <span class="cn">FALSE</span></span>
+<span id="cb66-4"><a href="#cb66-4" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div id="cr-memory" class="sticky">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb67"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb67-1"><a href="#cb67-1" aria-hidden="true" tabindex="-1"></a>bench<span class="sc">::</span><span class="fu">mark</span>(</span>
+<span id="cb67-2"><a href="#cb67-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">my_function</span>(big_data),</span>
+<span id="cb67-3"><a href="#cb67-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">filter_gc =</span> <span class="cn">FALSE</span></span>
+<span id="cb67-4"><a href="#cb67-4" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div id="cr-performance" class="sticky">
+<p><img src="img/performance.jpg" class="img-fluid"></p>
+</div>
+</div>
+</div>
+</div>
+<div class="cr-section cr-column-screen sidebar-left">
+<div class="narrative-col">
+<div class="trigger new-trigger" data-focus-on="cr-rhub_hex">
+<div class="narrative">
+<p><code>rhub</code> - Multi-Platform Testing (Thread)</p>
+</div>
+</div>
+<div class="trigger">
+<div class="narrative">
+<p>Test your package on multiple platforms before CRAN submission.</p>
+</div>
+</div>
+<div class="trigger new-trigger" data-focus-on="cr-rhub_cran">
+<div class="narrative">
+<p>Run CRAN checks: Tests on Debian, Windows, Fedora. Same platforms CRAN uses. Catch platform-specific issues early.</p>
+</div>
+</div>
+<div class="trigger new-trigger" data-focus-on="cr-rhub_platforms">
+<div class="narrative">
+<p><strong>Platform specific</strong>: Target specific platforms where you expect issues.</p>
+</div>
+</div>
+<div class="trigger">
+<div class="narrative">
+<p><strong>Before submission</strong>: Run rhub + GitHub Actions. If both pass, CRAN will likely accept.</p>
+</div>
+</div>
+<div class="trigger new-trigger" data-focus-on="cr-rhub_hex">
+<div class="narrative">
+<p>Resources: <a href="https://r-hub.github.io/rhub/">r-hub.github.io/rhub</a></p>
+</div>
+</div>
+</div>
+<div class="sticky-col">
+<div class="sticky-col-stack">
+<div id="cr-rhub_cran" class="sticky">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb68"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb68-1"><a href="#cb68-1" aria-hidden="true" tabindex="-1"></a>rhub<span class="sc">::</span><span class="fu">check_for_cran</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div id="cr-rhub_platforms" class="sticky">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb69"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb69-1"><a href="#cb69-1" aria-hidden="true" tabindex="-1"></a>rhub<span class="sc">::</span><span class="fu">check_on_windows</span>()</span>
+<span id="cb69-2"><a href="#cb69-2" aria-hidden="true" tabindex="-1"></a>rhub<span class="sc">::</span><span class="fu">check_on_macos</span>()</span>
+<span id="cb69-3"><a href="#cb69-3" aria-hidden="true" tabindex="-1"></a>rhub<span class="sc">::</span><span class="fu">check</span>(<span class="at">platform =</span> <span class="st">"debian-clang-devel"</span>, <span class="st">"fedora-gcc-devel"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div id="cr-rhub_hex" class="sticky">
+<p><img src="img/r-hub_hex.jpg" class="img-fluid"></p>
+</div>
+</div>
+</div>
+</div>
+<div class="cr-section cr-column-screen sidebar-right">
+<div class="narrative-col">
+<div class="trigger">
+<div class="narrative">
+<p>S3, S4, and S7 Object Systems</p>
+</div>
+</div>
+<div class="trigger">
+<div class="narrative">
+<p>Create robust object-oriented interfaces with R’s object systems.</p>
+</div>
+</div>
+<div class="trigger new-trigger" data-focus-on="cr-s3_methods">
+<div class="narrative">
+<p>S3 methods (simple &amp; common)</p>
+</div>
+</div>
+<div class="trigger new-trigger" data-focus-on="cr-s4_classes">
+<div class="narrative">
+<p>S4 classes (formal &amp; strict)</p>
+</div>
+</div>
+<div class="trigger new-trigger" data-focus-on="cr-s7_classes">
+<div class="narrative">
+<p>S7 (modern &amp; robust)</p>
+</div>
+</div>
+<div class="trigger">
+<div class="narrative">
+<p><strong>Pro Tip</strong>: Use S3 for simple classes, S4 for complex validation, S7 for modern OOP.</p>
+</div>
+</div>
+<div class="trigger">
+<div class="narrative">
+<p>Resources: <a href="https://rconsortium.github.io/S7">rconsortium.github.io/S7</a></p>
+</div>
+</div>
+</div>
+<div class="sticky-col">
+<div class="sticky-col-stack">
+<div id="cr-s3_methods" class="sticky">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb70"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb70-1"><a href="#cb70-1" aria-hidden="true" tabindex="-1"></a><span class="co">#' @export</span></span>
+<span id="cb70-2"><a href="#cb70-2" aria-hidden="true" tabindex="-1"></a>print.my_class <span class="ot">&lt;-</span> <span class="cf">function</span>(x, ...) {</span>
+<span id="cb70-3"><a href="#cb70-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="st">"My object with"</span>, <span class="fu">length</span>(x), <span class="st">"elements</span><span class="sc">\n</span><span class="st">"</span>)</span>
+<span id="cb70-4"><a href="#cb70-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">invisible</span>(x)</span>
+<span id="cb70-5"><a href="#cb70-5" aria-hidden="true" tabindex="-1"></a>  }</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div id="cr-s4_classes" class="sticky">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb71"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb71-1"><a href="#cb71-1" aria-hidden="true" tabindex="-1"></a><span class="fu">setClass</span>(<span class="st">"MyClass"</span>,</span>
+<span id="cb71-2"><a href="#cb71-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">slots =</span> <span class="fu">list</span>(<span class="at">data =</span> <span class="st">"data.frame"</span>, <span class="at">metadata =</span> <span class="st">"list"</span>)</span>
+<span id="cb71-3"><a href="#cb71-3" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div id="cr-s7_classes" class="sticky">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb72"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb72-1"><a href="#cb72-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(S7)</span>
+<span id="cb72-2"><a href="#cb72-2" aria-hidden="true" tabindex="-1"></a>Person <span class="ot">&lt;-</span> <span class="fu">new_class</span>(<span class="st">"Person"</span>,</span>
+<span id="cb72-3"><a href="#cb72-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">properties =</span> <span class="fu">list</span>(</span>
+<span id="cb72-4"><a href="#cb72-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">name =</span> class_character,</span>
+<span id="cb72-5"><a href="#cb72-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">age =</span> class_numeric</span>
+<span id="cb72-6"><a href="#cb72-6" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb72-7"><a href="#cb72-7" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div>
+</div>
+</div>
+<div class="cr-section cr-column-screen sidebar-left">
+<div class="narrative-col">
+<div class="trigger">
+<div class="narrative">
+<p><code>cli</code> - Beautiful Command Line Interfaces</p>
+</div>
+</div>
+<div class="trigger">
+<div class="narrative">
+<p>Create user-friendly messages and progress indicators.</p>
+</div>
+</div>
+<div class="trigger new-trigger" data-focus-on="cr-cli_messages">
+<div class="narrative">
+<p>Enhanced messages</p>
+</div>
+</div>
+<div class="trigger new-trigger" data-focus-on="cr-cli_progress">
+<div class="narrative">
+<p>Progress bars</p>
+</div>
+</div>
+<div class="trigger">
+<div class="narrative">
+<p><strong>Pro Tip</strong>: Use semantic markup like <code>{.fn function_name}</code> and <code>{.val value}</code> for consistent formatting.</p>
+</div>
+</div>
+<div class="trigger">
+<div class="narrative">
+<p>Resources: <a href="https://cli.r-lib.org/">cli.r-lib.org</a></p>
+</div>
+</div>
+</div>
+<div class="sticky-col">
+<div class="sticky-col-stack">
+<div id="cr-cli_messages" class="sticky">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb73"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb73-1"><a href="#cb73-1" aria-hidden="true" tabindex="-1"></a>cli<span class="sc">::</span><span class="fu">cli_alert_success</span>(<span class="st">"Package built successfully!"</span>)</span>
+<span id="cb73-2"><a href="#cb73-2" aria-hidden="true" tabindex="-1"></a>cli<span class="sc">::</span><span class="fu">cli_alert_warning</span>(<span class="st">"Missing documentation for {.fn my_function}"</span>)</span>
+<span id="cb73-3"><a href="#cb73-3" aria-hidden="true" tabindex="-1"></a>cli<span class="sc">::</span><span class="fu">cli_abort</span>(<span class="st">"Invalid input: {.val {invalid_value}}"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div id="cr-cli_progress" class="sticky">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb74"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb74-1"><a href="#cb74-1" aria-hidden="true" tabindex="-1"></a>cli<span class="sc">::</span><span class="fu">cli_progress_bar</span>(<span class="st">"Processing files"</span>, <span class="at">total =</span> <span class="fu">length</span>(files))</span>
+<span id="cb74-2"><a href="#cb74-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (file <span class="cf">in</span> files) {</span>
+<span id="cb74-3"><a href="#cb74-3" aria-hidden="true" tabindex="-1"></a>  <span class="co"># process file</span></span>
+<span id="cb74-4"><a href="#cb74-4" aria-hidden="true" tabindex="-1"></a>  cli<span class="sc">::</span><span class="fu">cli_progress_update</span>()</span>
+<span id="cb74-5"><a href="#cb74-5" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div>
+</div>
+</div>
+<div class="cr-section cr-column-screen sidebar-right">
+<div class="narrative-col">
+<div class="trigger new-trigger" data-focus-on="cr-rlang_hex">
+<div class="narrative">
+<p><code>rlang</code> - Tidy Evaluation in Packages</p>
+</div>
+</div>
+<div class="trigger">
+<div class="narrative">
+<p>Handle user expressions safely in package functions.</p>
+</div>
+</div>
+<div class="trigger new-trigger" data-focus-on="cr-basic_tidy_eval">
+<div class="narrative">
+<p>Basic tidy evaluation</p>
+</div>
+</div>
+<div class="trigger new-trigger" data-focus-on="cr-embrace">
+<div class="narrative">
+<p>Embrace operator</p>
+</div>
+</div>
+<div class="trigger new-trigger" data-focus-on="cr-dynamic_dots">
+<div class="narrative">
+<p>Dynamic dots</p>
+</div>
+</div>
+<div class="trigger">
+<div class="narrative">
+<p><strong>Pro Tip</strong>: Use <code>{{ }}</code> (embrace) for single arguments, <code>...</code> for multiple arguments.</p>
+</div>
+</div>
+<div class="trigger new-trigger" data-focus-on="cr-rlang_hex">
+<div class="narrative">
+<p>Resources: <a href="https://rlang.r-lib.org/">rlang.r-lib.org</a></p>
+</div>
+</div>
+</div>
+<div class="sticky-col">
+<div class="sticky-col-stack">
+<div id="cr-basic_tidy_eval" class="sticky">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb75"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb75-1"><a href="#cb75-1" aria-hidden="true" tabindex="-1"></a>my_summarise <span class="ot">&lt;-</span> <span class="cf">function</span>(data, ...) {</span>
+<span id="cb75-2"><a href="#cb75-2" aria-hidden="true" tabindex="-1"></a>  data <span class="sc">|&gt;</span></span>
+<span id="cb75-3"><a href="#cb75-3" aria-hidden="true" tabindex="-1"></a>    dplyr<span class="sc">::</span><span class="fu">summarise</span>(...)</span>
+<span id="cb75-4"><a href="#cb75-4" aria-hidden="true" tabindex="-1"></a>    }</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div id="cr-embrace" class="sticky">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb76"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb76-1"><a href="#cb76-1" aria-hidden="true" tabindex="-1"></a>my_mutate <span class="ot">&lt;-</span> <span class="cf">function</span>(data, col, value) {</span>
+<span id="cb76-2"><a href="#cb76-2" aria-hidden="true" tabindex="-1"></a>  data <span class="sc">|&gt;</span></span>
+<span id="cb76-3"><a href="#cb76-3" aria-hidden="true" tabindex="-1"></a>    dplyr<span class="sc">::</span><span class="fu">mutate</span>({{ col }} <span class="sc">:</span><span class="er">=</span> value)</span>
+<span id="cb76-4"><a href="#cb76-4" aria-hidden="true" tabindex="-1"></a>    }</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div id="cr-dynamic_dots" class="sticky">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb77"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb77-1"><a href="#cb77-1" aria-hidden="true" tabindex="-1"></a>my_function <span class="ot">&lt;-</span> <span class="cf">function</span>(...) {</span>
+<span id="cb77-2"><a href="#cb77-2" aria-hidden="true" tabindex="-1"></a>  dots <span class="ot">&lt;-</span> rlang<span class="sc">::</span><span class="fu">list2</span>(...)</span>
+<span id="cb77-3"><a href="#cb77-3" aria-hidden="true" tabindex="-1"></a>  <span class="co"># process dots</span></span>
+<span id="cb77-4"><a href="#cb77-4" aria-hidden="true" tabindex="-1"></a>  }</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div id="cr-rlang_hex" class="sticky">
+<p><img src="img/rlang_hex.jpg" class="img-fluid"></p>
+</div>
+</div>
+</div>
+</div>
+<div class="cr-section cr-column-screen sidebar-left">
+<div class="narrative-col">
+<div class="trigger">
+<div class="narrative">
+<p>CRAN Submission Checklist and <code>cran-comments.md</code></p>
+</div>
+</div>
+<div class="trigger">
+<div class="narrative">
+<p>Final steps for successful CRAN submission.</p>
+</div>
+</div>
+<div class="trigger new-trigger" data-focus-on="cr-cran_checklist">
+<div class="narrative">
+<p>Pre-submission checklist</p>
+</div>
+</div>
+<div class="trigger new-trigger" data-focus-on="cr-cran_comments">
+<div class="narrative">
+<p>Create <code>cran-comments.md</code></p>
+</div>
+</div>
+<div class="trigger new-trigger" data-focus-on="cr-cran_template">
+<div class="narrative">
+<p>Template</p>
+</div>
+</div>
+<div class="trigger">
+<div class="narrative">
+<p><strong>Pro Tip</strong>: Be proactive about communicating any unusual aspects of your package to CRAN reviewers.</p>
+</div>
+</div>
+<div class="trigger new-trigger" data-focus-on="cr-release_issue">
+<div class="narrative">
+<p>Start with the <strong>release issue checklist</strong>: Creates a GitHub issue with complete pre-submission checklist. Everything you need to remember, in one place. Check boxes as you go.</p>
+</div>
+</div>
+<div class="trigger">
+<div class="narrative">
+<p>Essential checks</p>
+</div>
+</div>
+<div class="trigger new-trigger" data-focus-on="cr-cran_comments">
+<div class="narrative">
+<p>Document Everything in <code>cran-comments.md</code>: Tell CRAN reviewers: test environments, check results, platform-specific notes. They read this first. Be thorough, honest, respectful.</p>
+</div>
+</div>
+<div class="trigger new-trigger" data-focus-on="cr-rejection_culprits">
+<div class="narrative">
+<p>Common rejection culprits: Prevent these through thorough testing!</p>
+</div>
+</div>
+<div class="trigger new-trigger" data-focus-on="cr-submit_cran">
+<div class="narrative">
+<p>Submit and be patient: Initial review takes 2-7 days typically. If accepted, 🎉! If issues found, respond promptly, fix kindly, resubmit.</p>
+</div>
+</div>
+</div>
+<div class="sticky-col">
+<div class="sticky-col-stack">
+<div id="cr-cran_checklist" class="sticky">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb78"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb78-1"><a href="#cb78-1" aria-hidden="true" tabindex="-1"></a><span class="ss"> - </span><span class="in">`devtools::check()`</span> passes with 0 errors, warnings, notes</span>
+<span id="cb78-2"><a href="#cb78-2" aria-hidden="true" tabindex="-1"></a><span class="ss"> - </span>Test on multiple platforms (<span class="in">`rhub`</span>, GitHub Actions)</span>
+<span id="cb78-3"><a href="#cb78-3" aria-hidden="true" tabindex="-1"></a><span class="ss"> - </span>Update <span class="in">`NEWS.md`</span> and version number</span>
+<span id="cb78-4"><a href="#cb78-4" aria-hidden="true" tabindex="-1"></a><span class="ss"> - </span>Check reverse dependencies</span>
+<span id="cb78-5"><a href="#cb78-5" aria-hidden="true" tabindex="-1"></a><span class="ss"> - </span>Spell check documentation</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div id="cr-cran_comments" class="sticky">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb79"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb79-1"><a href="#cb79-1" aria-hidden="true" tabindex="-1"></a>usethis<span class="sc">::</span><span class="fu">use_cran_comments</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div id="cr-cran_template" class="sticky">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb80"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb80-1"><a href="#cb80-1" aria-hidden="true" tabindex="-1"></a><span class="fu">## Test environments</span></span>
+<span id="cb80-2"><a href="#cb80-2" aria-hidden="true" tabindex="-1"></a><span class="ss">* </span>local: R 4.3.0</span>
+<span id="cb80-3"><a href="#cb80-3" aria-hidden="true" tabindex="-1"></a><span class="ss">* </span>GitHub Actions: windows, macOS, ubuntu (R-devel, release, oldrel)</span>
+<span id="cb80-4"><a href="#cb80-4" aria-hidden="true" tabindex="-1"></a><span class="ss">* </span>rhub: fedora, debian</span>
+<span id="cb80-5"><a href="#cb80-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb80-6"><a href="#cb80-6" aria-hidden="true" tabindex="-1"></a><span class="fu">## R CMD check results</span></span>
+<span id="cb80-7"><a href="#cb80-7" aria-hidden="true" tabindex="-1"></a>0 errors | 0 warnings | 0 notes</span>
+<span id="cb80-8"><a href="#cb80-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb80-9"><a href="#cb80-9" aria-hidden="true" tabindex="-1"></a><span class="fu">## Downstream dependencies</span></span>
+<span id="cb80-10"><a href="#cb80-10" aria-hidden="true" tabindex="-1"></a>No issues found.</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div id="cr-release_issue" class="sticky">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb81"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb81-1"><a href="#cb81-1" aria-hidden="true" tabindex="-1"></a>usethis<span class="sc">::</span><span class="fu">use_release_issue</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div id="cr-essential_checks" class="sticky">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb82"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb82-1"><a href="#cb82-1" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="in">`devtools::check()`</span> = 0 errors, 0 warnings, 0 notes</span>
+<span id="cb82-2"><a href="#cb82-2" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Tests pass on <span class="in">`rhub`</span> + GitHub Actions (all platforms)</span>
+<span id="cb82-3"><a href="#cb82-3" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>NEWS.md updated with version and changes</span>
+<span id="cb82-4"><a href="#cb82-4" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Version bumped in <span class="in">`DESCRIPTION`</span></span>
+<span id="cb82-5"><a href="#cb82-5" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="in">`devtools::spell_check()`</span> passed</span>
+<span id="cb82-6"><a href="#cb82-6" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Reverse dependencies checked</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div id="cr-cran_comments" class="sticky">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb83"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb83-1"><a href="#cb83-1" aria-hidden="true" tabindex="-1"></a>usethis<span class="sc">::</span><span class="fu">use_cran_comments</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div id="cr-rejection_culprits" class="sticky">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb84"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb84-1"><a href="#cb84-1" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Examples &gt;5 seconds</span>
+<span id="cb84-2"><a href="#cb84-2" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Typos/grammar in docs</span>
+<span id="cb84-3"><a href="#cb84-3" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Missing input validation (crashes on edge cases)</span>
+<span id="cb84-4"><a href="#cb84-4" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Platform-specific bugs</span>
+<span id="cb84-5"><a href="#cb84-5" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Unnecessary package bloat</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div id="cr-submit_cran" class="sticky">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb85"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb85-1"><a href="#cb85-1" aria-hidden="true" tabindex="-1"></a>devtools<span class="sc">::</span><span class="fu">submit_cran</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div>
+</div>
+</div>
+<div class="cr-section cr-column-screen sidebar-right">
+<div class="narrative-col">
+<div class="trigger">
+<div class="narrative">
+<p><a href="https://drmowinckels.io/blog/2025/rpackage-dev-calendar/">Full blog</a></p>
+</div>
+</div>
+<div class="trigger">
+<div class="narrative">
+<p>Further reading: <a href="https://r-pkgs.org">r-pkgs.org</a>, <a href="https://usethis.r-lib.org">usethis.r-lib.org</a></p>
+</div>
+</div>
+</div>
+<div class="sticky-col">
+<div class="sticky-col-stack">
+
 </div>
 </div>
 </div>
