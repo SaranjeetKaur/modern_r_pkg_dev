@@ -1147,3 +1147,314 @@ Resources: [`goodpractice` docs](https://github.com/ropensci-review-tools/goodpr
 ![](img/goodpractice_hex.png)
 :::
 :::
+
+:::{.cr-section layout="sidebar-right"}
+Performance Testing with `bench`
+
+Profile and benchmark your package functions.
+
+Basic benchmarking  @cr-basic_benchmark
+
+:::{#cr-basic_benchmark}
+```r
+results <- bench::mark(
+  old_approach = old_function(data),
+  new_approach = new_function(data),
+  check = FALSE, # Skip result equality check
+  iterations = 100
+  )
+plot(results)
+```
+:::
+
+Memory profiling  @cr-memory_profiling
+
+:::{#cr-memory_profiling}
+```r
+bench::mark(
+  my_function(big_data),
+  filter_gc = FALSE
+  )
+```
+:::
+
+**Pro Tip**: Include benchmarks in your test suite to catch performance regressions.
+
+**Performance question**: "Is approach A faster than B?" Guessing = wrong. Microbenchmarking = proof.
+
+**Memory matters**: Track memory allocation. Sometimes "faster" uses 10x memory. `bench` shows the tradeoff.  @cr-memory
+
+:::{#cr-memory}
+```r
+bench::mark(
+  my_function(big_data),
+  filter_gc = FALSE
+  )
+```
+:::
+
+**Catch regressions**: Include benchmarks in tests. New code slower? Test fails. Maintain performance intentionally.
+
+Resources: [bench.r-lib.org](https://bench.r-lib.org/)
+
+:::{#cr-performance}
+![](img/performance.jpg)
+:::
+:::
+
+:::{.cr-section layout="sidebar-left"}
+`rhub` - Multi-Platform Testing (Thread)  @cr-rhub_hex
+
+Test your package on multiple platforms before CRAN submission.
+
+Run CRAN checks: Tests on Debian, Windows, Fedora. Same platforms CRAN uses. Catch platform-specific issues early.  @cr-rhub_cran
+
+:::{#cr-rhub_cran}
+```r
+rhub::check_for_cran()
+```
+:::
+
+**Platform specific**: Target specific platforms where you expect issues.  @cr-rhub_platforms
+
+:::{#cr-rhub_platforms}
+```r
+rhub::check_on_windows()
+rhub::check_on_macos()
+rhub::check(platform = "debian-clang-devel", "fedora-gcc-devel")
+```
+:::
+
+**Before submission**: Run rhub + GitHub Actions. If both pass, CRAN will likely accept.
+
+Resources: [r-hub.github.io/rhub](https://r-hub.github.io/rhub/)  @cr-rhub_hex
+
+:::{#cr-rhub_hex}
+![](img/r-hub_hex.jpg)
+:::
+:::
+
+:::{.cr-section layout="sidebar-right"}
+S3, S4, and S7 Object Systems
+
+Create robust object-oriented interfaces with R's object systems.
+
+S3 methods (simple & common)  @cr-s3_methods
+
+:::{#cr-s3_methods}
+```r
+#' @export
+print.my_class <- function(x, ...) {
+  cat("My object with", length(x), "elements\n")
+  invisible(x)
+  }
+```
+:::
+
+S4 classes (formal & strict)  @cr-s4_classes
+
+:::{#cr-s4_classes}
+```r
+setClass("MyClass",
+  slots = list(data = "data.frame", metadata = "list")
+)
+```
+:::
+
+S7 (modern & robust)  @cr-s7_classes
+
+:::{#cr-s7_classes}
+```r
+library(S7)
+Person <- new_class("Person",
+  properties = list(
+  name = class_character,
+  age = class_numeric
+  )
+)
+```
+:::
+
+**Pro Tip**: Use S3 for simple classes, S4 for complex validation, S7 for modern OOP.
+
+Resources: [rconsortium.github.io/S7](https://rconsortium.github.io/S7)
+:::
+
+:::{.cr-section layout="sidebar-left"}
+`cli` - Beautiful Command Line Interfaces
+
+Create user-friendly messages and progress indicators.
+
+Enhanced messages  @cr-cli_messages
+
+:::{#cr-cli_messages}
+```r
+cli::cli_alert_success("Package built successfully!")
+cli::cli_alert_warning("Missing documentation for {.fn my_function}")
+cli::cli_abort("Invalid input: {.val {invalid_value}}")
+```
+:::
+
+Progress bars  @cr-cli_progress
+
+:::{#cr-cli_progress}
+```r
+cli::cli_progress_bar("Processing files", total = length(files))
+for (file in files) {
+  # process file
+  cli::cli_progress_update()
+}
+```
+:::
+
+**Pro Tip**: Use semantic markup like `{.fn function_name}` and `{.val value}` for consistent formatting.
+
+Resources: [cli.r-lib.org](https://cli.r-lib.org/)
+:::
+
+:::{.cr-section layout="sidebar-right"}
+`rlang` - Tidy Evaluation in Packages  @cr-rlang_hex
+
+Handle user expressions safely in package functions.
+
+Basic tidy evaluation  @cr-basic_tidy_eval
+
+:::{#cr-basic_tidy_eval}
+```r
+my_summarise <- function(data, ...) {
+  data |>
+    dplyr::summarise(...)
+    }
+```
+:::
+
+Embrace operator  @cr-embrace
+
+:::{#cr-embrace}
+```r
+my_mutate <- function(data, col, value) {
+  data |>
+    dplyr::mutate({{ col }} := value)
+    }
+```
+:::
+
+Dynamic dots  @cr-dynamic_dots
+
+:::{#cr-dynamic_dots}
+```r
+my_function <- function(...) {
+  dots <- rlang::list2(...)
+  # process dots
+  }
+```
+:::
+
+**Pro Tip**: Use `{{{ }}}` (embrace) for single arguments, `...` for multiple arguments.
+
+Resources: [rlang.r-lib.org](https://rlang.r-lib.org/)  @cr-rlang_hex
+
+:::{#cr-rlang_hex}
+![](img/rlang_hex.jpg)
+:::
+:::
+
+:::{.cr-section layout="sidebar-left"}
+CRAN Submission Checklist and `cran-comments.md`
+
+Final steps for successful CRAN submission.
+
+Pre-submission checklist  @cr-cran_checklist
+
+:::{#cr-cran_checklist}
+```markdown
+ - `devtools::check()` passes with 0 errors, warnings, notes
+ - Test on multiple platforms (`rhub`, GitHub Actions)
+ - Update `NEWS.md` and version number
+ - Check reverse dependencies
+ - Spell check documentation
+```
+:::
+
+Create `cran-comments.md`  @cr-cran_comments
+
+:::{#cr-cran_comments}
+```r
+usethis::use_cran_comments()
+```
+:::
+
+Template  @cr-cran_template
+
+:::{#cr-cran_template}
+```markdown
+## Test environments
+* local: R 4.3.0
+* GitHub Actions: windows, macOS, ubuntu (R-devel, release, oldrel)
+* rhub: fedora, debian
+
+## R CMD check results
+0 errors | 0 warnings | 0 notes
+
+## Downstream dependencies
+No issues found.
+```
+:::
+
+**Pro Tip**: Be proactive about communicating any unusual aspects of your package to CRAN reviewers. 
+
+Start with the **release issue checklist**: Creates a GitHub issue with complete pre-submission checklist. Everything you need to remember, in one place. Check boxes as you go.  @cr-release_issue
+
+:::{#cr-release_issue}
+```r
+usethis::use_release_issue()
+```
+:::
+
+Essential checks
+
+:::{#cr-essential_checks}
+```markdown
+- `devtools::check()` = 0 errors, 0 warnings, 0 notes
+- Tests pass on `rhub` + GitHub Actions (all platforms)
+- NEWS.md updated with version and changes
+- Version bumped in `DESCRIPTION`
+- `devtools::spell_check()` passed
+- Reverse dependencies checked
+```
+:::
+
+Document Everything in `cran-comments.md`: Tell CRAN reviewers: test environments, check results, platform-specific notes. They read this first. Be thorough, honest, respectful.  @cr-cran_comments
+
+:::{#cr-cran_comments}
+```r
+usethis::use_cran_comments()
+```
+:::
+
+Common rejection culprits: Prevent these through thorough testing!  @cr-rejection_culprits
+
+:::{#cr-rejection_culprits}
+```markdown
+- Examples >5 seconds
+- Typos/grammar in docs
+- Missing input validation (crashes on edge cases)
+- Platform-specific bugs
+- Unnecessary package bloat
+```
+:::
+
+Submit and be patient: Initial review takes 2-7 days typically. If accepted, 🎉! If issues found, respond promptly, fix kindly, resubmit.  @cr-submit_cran
+
+:::{#cr-submit_cran}
+```r
+devtools::submit_cran()
+```
+:::
+:::
+
+:::{.cr-section layout="sidebar-right"}
+[Full blog](https://drmowinckels.io/blog/2025/rpackage-dev-calendar/)
+
+Further reading: [r-pkgs.org](https://r-pkgs.org), [usethis.r-lib.org](https://usethis.r-lib.org)
+:::
